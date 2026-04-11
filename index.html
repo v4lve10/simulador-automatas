@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador de Autómatas Finitos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="logo-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#00e8a0" stroke-width="1.5">
+        <circle cx="12" cy="12" r="9"/>
+        <path d="M8 12h8M12 8v8" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div>
+      <h1>Simulador de Autómatas</h1>
+      <p>// Autómatas Finitos Deterministas · Teoría de Computación</p>
+    </div>
+    <div class="badge">v1.0</div>
+  </header>
+
+  <div class="selector-row">
+    <button class="af-btn active" onclick="selectAF(0)">
+      <div class="af-num">AF–01</div>
+      <div class="af-title">Identificadores</div>
+      <div class="af-regex">[a-zA-Z][a-zA-Z0-9]*</div>
+    </button>
+    <button class="af-btn" onclick="selectAF(1)">
+      <div class="af-num">AF–02</div>
+      <div class="af-title">Números Enteros</div>
+      <div class="af-regex">-?[0-9]+</div>
+    </button>
+    <button class="af-btn" onclick="selectAF(2)">
+      <div class="af-num">AF–03</div>
+      <div class="af-title">Comentarios</div>
+      <div class="af-regex">##.*</div>
+    </button>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header">
+      <div class="panel-dot dot-red"></div>
+      <div class="panel-dot dot-amber"></div>
+      <div class="panel-dot dot-green"></div>
+      <span class="panel-title" id="diagram-title">AF–01 · Identificadores</span>
+    </div>
+    <canvas id="diagram-canvas"></canvas>
+    <div class="input-area">
+      <div class="input-label">// Cadena de entrada</div>
+      <div class="input-row">
+        <input class="chain-input" id="chain-input" type="text" placeholder="" spellcheck="false">
+        <button class="sim-btn" id="sim-btn" onclick="simulate()">► Simular</button>
+        <button class="reset-btn" onclick="resetAll()">↺</button>
+      </div>
+      <div class="char-track" id="char-track"></div>
+      <div class="result-bar" id="result-bar">
+        <span class="result-icon" id="result-icon"></span>
+        <span id="result-text"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="log-panel">
+    <div class="panel-header">
+      <div class="panel-dot dot-green"></div>
+      <span class="panel-title">// Registro de transiciones</span>
+    </div>
+    <div class="log-body" id="log-body">
+      <span class="log-empty">Esperando simulación...</span>
+    </div>
+  </div>
+
+  <div class="info-grid">
+    <div class="info-card">
+      <h3>// Estados</h3>
+      <div class="state-chips" id="state-chips"></div>
+    </div>
+    <div class="info-card">
+      <h3>// Tabla de transiciones</h3>
+      <table class="transition-table" id="trans-table">
+        <thead><tr><th>Estado</th><th>Símbolo</th><th>→</th></tr></thead>
+        <tbody id="trans-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+<script src="main.js"></script>
+</body>
+</html>
