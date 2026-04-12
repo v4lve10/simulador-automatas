@@ -26,32 +26,42 @@ const AFS = [
   },
   {
     id: 'AF-02',
-    name: 'Números Enteros',
-    regex: '-?[0-9]+',
-    states: ['q0', 'q1', 'q2'],
+    name: 'Enteros y Decimales',
+    regex: '-?[0-9]+(\\.[0-9]+)?',
+    states: ['q0', 'q1', 'q2', 'q3', 'q4'],
     initial: 'q0',
-    accepting: ['q2'],
+    accepting: ['q2', 'q4'],
     transitions: [
-      { from: 'q0', sym: '-', to: 'q1' },
+      { from: 'q0', sym: '-',      to: 'q1' },
       { from: 'q0', sym: 'dígito', to: 'q2' },
       { from: 'q1', sym: 'dígito', to: 'q2' },
       { from: 'q2', sym: 'dígito', to: 'q2' },
+      { from: 'q2', sym: '.',      to: 'q3' },
+      { from: 'q3', sym: 'dígito', to: 'q4' },
+      { from: 'q4', sym: 'dígito', to: 'q4' },
     ],
     layout: {
-      q0: { x: .18, y: .5 },
-      q1: { x: .5,  y: .5 },
-      q2: { x: .82, y: .5 },
+      q0: { x: .10, y: .5 },
+      q1: { x: .30, y: .5 },
+      q2: { x: .52, y: .5 },
+      q3: { x: .72, y: .5 },
+      q4: { x: .90, y: .5 },
     },
     edges: [
-      { from: 'q0', to: 'q1', label: '-',      curve: 0   },
-      { from: 'q0', to: 'q2', label: 'dígito', curve: -60 },
-      { from: 'q1', to: 'q2', label: 'dígito', curve: 0   },
-      { from: 'q2', to: 'q2', label: 'dígito', loop: true },
+      { from: 'q0', to: 'q1', label: '-',      curve: 0    },
+      { from: 'q0', to: 'q2', label: 'dígito', curve: -55  },
+      { from: 'q1', to: 'q2', label: 'dígito', curve: 0    },
+      { from: 'q2', to: 'q2', label: 'dígito', loop: true  },
+      { from: 'q2', to: 'q3', label: '.',      curve: 0    },
+      { from: 'q3', to: 'q4', label: 'dígito', curve: 0    },
+      { from: 'q4', to: 'q4', label: 'dígito', loop: true  },
     ],
     step(state, ch) {
       if (state === 'q0') return ch === '-' ? 'q1' : /[0-9]/.test(ch) ? 'q2' : '__DEAD__';
       if (state === 'q1') return /[0-9]/.test(ch) ? 'q2' : '__DEAD__';
-      if (state === 'q2') return /[0-9]/.test(ch) ? 'q2' : '__DEAD__';
+      if (state === 'q2') return /[0-9]/.test(ch) ? 'q2' : ch === '.' ? 'q3' : '__DEAD__';
+      if (state === 'q3') return /[0-9]/.test(ch) ? 'q4' : '__DEAD__';
+      if (state === 'q4') return /[0-9]/.test(ch) ? 'q4' : '__DEAD__';
       return '__DEAD__';
     }
   },
